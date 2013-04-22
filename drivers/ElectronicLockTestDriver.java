@@ -30,9 +30,9 @@ public class ElectronicLockTestDriver implements ElectronicLock {
 		frame.setVisible(true);
 
 		timer = new Timer(1000, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {  	// Inner class with code
-				state.setText("LOCKED");					// to be executed when the timer
-				timer.stop();								// event happens
+			public void actionPerformed(ActionEvent e) {
+				state.setText("LOCKED");
+				timer.stop();
 			}
 		});
 		timer.stop();
