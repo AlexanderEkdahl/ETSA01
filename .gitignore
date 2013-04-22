@@ -1,0 +1,18 @@
+### Java ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Linux ###
+.*
+!.gitignore
+*~
+
+### OSX ###
+.DS_Store
+
+# Thumbnails
+._*
