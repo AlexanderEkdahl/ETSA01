@@ -1,39 +1,32 @@
 public class Bicycle {
-	// /** Initializes a new instance of Bicycle
-	//  *
-	//  * @param id    Unique bikeid that corresponds to the barcode
-	//  * @param user  Owner of the bike
-	//  * @return      Bicycle instance
-	//  */
-	// public Bicycle(String id, User user);
+ 	static int idCounter = 0;
 
-	// /** Returns the id of the bike(barcode)
-	//  *
-	//  * @return      Bicycle id
-	//  */
-	// public String getId();
+	String id;
+	User user;
 
-	// /** Returns the owner of the bike
-	//  *
-	//  * @return      Bicycle owner
-	//  */
-	// public User getUser();
+	/** Initializes a new instance of Bicycle
+	 *
+	 * @param user  Owner of the bike
+	 * @return      Bicycle instance
+	 */
+	public Bicycle(User user) {
+		this.user = user;
+		id        = Integer.toString(++idCounter);
+	}
 
-	// * Returns whether or not the bike is in the garage
-	//  *
-	//  * @return      Bicycle garage status
+	/** Returns the id of the bike(barcode)
+	 *
+	 * @return      Bicycle id
+	 */
+	public String getId() {
+		return id;
+	}
 
-	// public boolean isInGarage();
-
-	// /** Changes the bicycle garage status to status
-	//  *
-	//  * @param status  Bicycle garage status
-	//  */
-	// public void setInGarage(boolean status);
-
-	// /** Returns a human friendly representation of the Bicycle
-	//  *
-	//  * @return    String holding bicycle id, owner nam and garage status
-	//  */
-	// public String toString();
+	/** Returns the owner of the bike
+	 *
+	 * @return      Bicycle owner
+	 */
+	public User getUser() {
+		return user;
+	}
 }
