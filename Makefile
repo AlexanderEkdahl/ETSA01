@@ -1,7 +1,7 @@
 all: build run
 
 build:
-	javac -cp src:drivers:interfaces:test src/BicycleGarage.java
+	javac -cp src:drivers:interfaces:test src/Garage.java
 
 run:
-	java -cp src:drivers:interfaces:test BicycleGarage
+	java -cp src:drivers:interfaces:test Garage

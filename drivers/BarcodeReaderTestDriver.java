@@ -17,7 +17,7 @@ import java.awt.event.*;
 abstract public class BarcodeReaderTestDriver implements BarcodeReader, ActionListener {
 	private JFrame frame;
 	private JTextField scannedCode;
-	protected BicycleGarageManager manager;
+	protected Manager manager;
 	private JButton scanButton;
 
 	/**
@@ -26,7 +26,7 @@ abstract public class BarcodeReaderTestDriver implements BarcodeReader, ActionLi
 	* the reader.
 	* @param manager The bicycle garage manager
 	*/
-	public void register(BicycleGarageManager manager) {
+	public void register(Manager manager) {
 		this.manager = manager;
 	}
 

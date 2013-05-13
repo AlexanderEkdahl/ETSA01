@@ -2,7 +2,7 @@ import javax.swing.*;
 
 /**
  * This class simulates a bar code printer.
- * It can be used when BicycleGarageManager is tested.
+ * It can be used when Manager is tested.
  *
  * @version 1.1
  * @author Martin Höst

@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 /**
  * This class simulates an electronic lock.
- * It can be used when BicycleGarageManager is tested.
+ * It can be used when Manager is tested.
  *
  * @version 1.1
  * @author Martin Host

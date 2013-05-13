@@ -1,6 +1,6 @@
 /**
  * This class simulates a bar code reader at the entry door.
- * It can be used when BicycleGarageManager is tested.
+ * It can be used when Manager is tested.
  *
  * @version 1.0
  * @author Martin Höst
