@@ -3,6 +3,7 @@ public class Bicycle {
 
 	String id;
 	User user;
+	boolean status;
 
 	/** Initializes a new instance of Bicycle
 	 *
@@ -21,6 +22,22 @@ public class Bicycle {
 	public String getId() {
 		return id;
 	}
+
+	/** Returns whether or not the bike is in the garage
+  *
+  * @return      Bicycle garage status
+  */
+  public boolean isInGarage() {
+  	return status;
+  }
+
+	/** Changes the bicycle garage status to status
+  *
+  * @param status  Bicycle garage status
+  */
+  public void setGarageStatus(boolean status) {
+  	this.status = status;
+  }
 
 	/** Returns the owner of the bike
 	 *

@@ -33,9 +33,6 @@ public class Garage {
 		terminal.register(manager);
 		readerEntry.register(manager);
 		readerExit.register(manager);
-
-		System.out.println("Cykelgarage version 0.1 av: \n"
-										 + "Alexander Ekdahl + Co");
 	}
 
 	void run() {
@@ -46,12 +43,16 @@ public class Garage {
 											 + "1. Lägg till en ny användare\n"
 											 + "2. Lägg till en ny cykel\n"
 											 + "3. Uppgradera användare till betalande\n"
-											 + "4. Nedgradera användare till icke betalande");
+											 + "4. Nedgradera användare till icke betalande\n"
+											 + "5. Ta bort cykel\n"
+											 + "6. Ta bort användare\n"
+											 + "7. Lista aktiva användare\n"
+											 + "8. Lista alla användare\n");
 
 			switch (Integer.parseInt(scan.next())) {
 				case 1: {
-					User u = manager.addUser(prompt("Namn"), prompt("Personnummer"), prompt_yesno("Betalande användare?"));
-					System.out.print("Användare tillagd. Pinkod: " + u.getPin());
+					String pin = manager.addUser(prompt("Namn"), prompt("Personnummer"), prompt_yesno("Betalande användare?"));
+					System.out.print("Användare tillagd. Pinkod: " + pin);
 					break;
 				}
 				case 2: {
@@ -67,6 +68,41 @@ public class Garage {
 				case 4: {
 					manager.downgradeUser(prompt("Personnummer"));
 					System.out.print("Användare nedgraderad.");
+					break;
+				}
+				case 5: {
+					if (manager.removeBicycle(prompt("Cyckel ID"))) {
+						System.out.print("Cykel bortagen");
+					} else {
+						System.out.print("Cykeln finns inte i systemet eller redan parkerad");
+					}
+					break;
+				}
+				case 6: {
+					if (manager.removeUser(prompt("Personnummer"))) {
+						System.out.print("Användare bortagen");
+					} else {
+						System.out.print("Användaren finns inte eller har parkerade cyklar i garaget");
+					}
+					break;
+				}
+				case 7: {
+					for (User user : manager.activeUsers()) {
+						System.out.println(user.toString());
+					}
+					break;
+				}
+				case 8: {
+					for (User user : manager.getUsers()) {
+						System.out.println(user.toString());
+					}
+					break;
+				}
+				case 9: {
+					User user = manager.getBicycleOwner(prompt("Cykel ID"));
+					if (user != null) {
+						System.out.println(user.toString());
+					}
 					break;
 				}
 			}
