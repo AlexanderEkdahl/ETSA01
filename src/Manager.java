@@ -1,6 +1,6 @@
 import java.util.Properties;
 import java.util.HashMap;
-import java.util.HashSet;
+// import java.util.HashSet;
 import java.util.ArrayList;
 
 public class Manager {
@@ -84,19 +84,19 @@ public class Manager {
 	 *
 	 * @return       HashSet of all active users
 	 */
-	public HashSet<User> activeUsers() {
-		HashSet<User> users = new HashSet<User>();
+	// public HashSet<User> activeUsers() {
+	// 	HashSet<User> users = new HashSet<User>();
 
-		for (User user : this.users.values()) {
-			for (Bicycle bike : user.getBicycles()) {
-				if (bike.isInGarage()) {
-					users.add(user);
-				}
-			}
-		}
+	// 	for (User user : this.users.values()) {
+	// 		for (Bicycle bike : user.getBicycles()) {
+	// 			if (bike.isInGarage()) {
+	// 				users.add(user);
+	// 			}
+	// 		}
+	// 	}
 
-		return users;
-	}
+	// 	return users;
+	// }
 
 	/** Returns a list of all the users
 	 *

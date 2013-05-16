@@ -65,6 +65,22 @@ public class User {
 		return bikes;
 	}
 
+	/** Returns a list of bicycles in the garage owned by the user
+	 *
+	 * @return      ArrayList of the bicycles
+	 */
+	public ArrayList<Bicycle> getBicyclesInGarage() {
+		ArrayList<Bicycle> inGarage = new ArrayList<Bicycle>();
+
+		for (Bicycle bike : bikes) {
+			if (bike.isInGarage()) {
+				inGarage.add(bike);
+			}
+		}
+
+		return inGarage;
+	}
+
 	/** Assign a bicycle to a user
 	 *
 	 * @param bike  The bicycle that should be assigned to the user
@@ -100,13 +116,7 @@ public class User {
 	 * @returns true if User has bicycle in garage
 	 */
 	public boolean hasBicycleInGarage() {
-		for (Bicycle bike : bikes) {
-			if (bike.isInGarage()) {
-				return true;
-			}
-		}
-
-		return false;
+		return getBicyclesInGarage().size() > 0;
 	}
 
 	/** Returns a human friendly representation of the User

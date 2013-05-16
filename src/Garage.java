@@ -46,7 +46,7 @@ public class Garage {
 											 + "4. Nedgradera användare till icke betalande\n"
 											 + "5. Ta bort cykel\n"
 											 + "6. Ta bort användare\n"
-											 + "7. Lista aktiva användare\n"
+											 + "7. Lista cyklar i garaget\n"
 											 + "8. Lista alla användare\n");
 
 			switch (Integer.parseInt(scan.next())) {
@@ -94,9 +94,8 @@ public class Garage {
 					break;
 				}
 				case 7: {
-					for (User user : manager.activeUsers()) {
-						System.out.println(user.toString());
-						for (Bicycle bike : user.getBicycles()) {
+					for (User user : manager.getUsers()) {
+						for (Bicycle bike : user.getBicyclesInGarage()) {
 							System.out.println("\t" + bike.toString());
 						}
 					}
