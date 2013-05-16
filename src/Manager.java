@@ -180,8 +180,9 @@ public class Manager {
 	}
 
 	public void entryBarcode(String id) {
-		if (garageN >= Integer.parseInt(prop.getProperty("garage_full", "10"))) {
-			terminal.lightLED(PinCodeTerminal.RED_LED, 5);
+		if (garageN >= Integer.parseInt(prop.getProperty("garage_full", "2"))) {
+			terminal.lightLED(PinCodeTerminal.RED_LED, 1);
+			pendingBicycle = null;
 			return;
 		}
 
@@ -189,7 +190,7 @@ public class Manager {
 		if (bike != null && !bike.isInGarage()) {
 			pendingBicycle = bike;
 		} else {
-			terminal.lightLED(PinCodeTerminal.RED_LED, 5);
+			terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 		}
 	}
 
@@ -208,18 +209,18 @@ public class Manager {
 			if (pendingBicycle != null && pendingBicycle.getUser().getPin().equals(pinInput)) {
 				pendingBicycle.setGarageStatus(true);
 				garageN++;
-				terminal.lightLED(PinCodeTerminal.GREEN_LED, 2);
+				terminal.lightLED(PinCodeTerminal.GREEN_LED, 10);
 				entryLock.open(10);
 				pendingBicycle = null;
 			} else if (usersPin.containsKey(pinInput)) {
 				if (usersPin.get(pinInput).hasBicycleInGarage()) {
-					terminal.lightLED(PinCodeTerminal.GREEN_LED, 2);
+					terminal.lightLED(PinCodeTerminal.GREEN_LED, 10);
 					entryLock.open(10);
 				} else {
-					terminal.lightLED(PinCodeTerminal.RED_LED, 2);
+					terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 				}
 			} else {
-				terminal.lightLED(PinCodeTerminal.RED_LED, 2);
+				terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 			}
 			pinInput = "";
 		}

@@ -96,7 +96,7 @@ public class Garage {
 				case 7: {
 					for (User user : manager.getUsers()) {
 						for (Bicycle bike : user.getBicyclesInGarage()) {
-							System.out.println("\t" + bike.toString());
+							System.out.println(bike.toString());
 						}
 					}
 					break;
