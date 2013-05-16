@@ -55,7 +55,7 @@ public class Garage {
 					if (user != null) {
 						System.out.print("Användare tillagd. Pinkod: " + user.getPin());
 					} else {
-						System.out.print("Användare med det personnumret finns redan";
+						System.out.print("Användare med det personnumret finns redan");
 					}
 					break;
 				}
