@@ -62,10 +62,8 @@ public class Manager {
 		User u = users.get(id);
 
 		if (u != null) {
-			for (Bicycle bike : u.getBicycles()) {
-				if (!removeBicycle(bike.getId())) {
-					return false;
-				}
+			if (u.getBicycles().size() > 0) {
+				return false;
 			}
 
 			users.remove(id);
@@ -138,9 +136,10 @@ public class Manager {
 	/** Add a bicycle to a user
 	 *
 	 * @param id       Id of the user
+	 * @returns        True if bike successfully was added
 	 */
-	public void addBicycle(String id) {
-		User u       = users.get(id);
+	public boolean addBicycle(String id) {
+		User u = users.get(id);
 
 		if (u != null) {
 			Bicycle bike = new Bicycle(u);
@@ -148,7 +147,10 @@ public class Manager {
 			u.addBicycle(bike);
 			bikes.put(bike.getId(), bike);
 			printer.printBarcode(bike.getId());
+			return true;
 		}
+
+		return false;
 	}
 
 	/** Remove a bicycle from a user

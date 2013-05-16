@@ -100,6 +100,6 @@ public class User {
 	 * @return    String holding user name, number of bikes, unique id, pincode and pro status
 	 */
 	public String toString() {
-		return "Namn: " + name + " Personummer: " + id + " Pinkod: " + pin;
+		return "Namn: " + name + " Personummer: " + id + " Pinkod: " + pin + " Betalande: " + String.valueOf(pro);
 	}
 }

@@ -56,8 +56,11 @@ public class Garage {
 					break;
 				}
 				case 2: {
-					manager.addBicycle(prompt("Ägarens personnummer"));
-					System.out.print("Cykel tillagd.");
+					if (manager.addBicycle(prompt("Ägarens personnummer"))) {
+						System.out.print("Cykel tillagd.");
+					} else {
+						System.out.print("Användaren fins inte");
+					}
 					break;
 				}
 				case 3: {
@@ -82,7 +85,7 @@ public class Garage {
 					if (manager.removeUser(prompt("Personnummer"))) {
 						System.out.print("Användare bortagen");
 					} else {
-						System.out.print("Användaren finns inte eller har parkerade cyklar i garaget");
+						System.out.print("Användaren finns inte eller har fortfarande cyklar registrerade. Ta bort cyklarna först.");
 					}
 					break;
 				}
