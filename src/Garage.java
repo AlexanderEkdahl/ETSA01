@@ -122,6 +122,15 @@ public class Garage {
 		}
 	}
 
+	void list(Iterator<User> users) {
+		for (User user : users) {
+			System.out.println(user.toString());
+			for (Bicycle bike : user.getBicycles()) {
+				System.out.println("\t" + bike.toString());
+			}
+		}
+	}
+
 	String prompt(String out) {
 		System.out.print(out + ": ");
 		return scan.next();
