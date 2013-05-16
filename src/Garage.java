@@ -96,12 +96,18 @@ public class Garage {
 				case 7: {
 					for (User user : manager.activeUsers()) {
 						System.out.println(user.toString());
+						for (Bicycle bike : user.getBicycles()) {
+							System.out.println("\t" + bike.toString());
+						}
 					}
 					break;
 				}
 				case 8: {
 					for (User user : manager.getUsers()) {
 						System.out.println(user.toString());
+						for (Bicycle bike : user.getBicycles()) {
+							System.out.println("\t" + bike.toString());
+						}
 					}
 					break;
 				}
