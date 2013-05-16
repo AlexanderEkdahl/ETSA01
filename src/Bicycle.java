@@ -46,4 +46,12 @@ public class Bicycle {
 	public User getUser() {
 		return user;
 	}
+
+  /** Returns a human friendly representation of the Bicycle object
+   *
+   * @return    String holding id, owner name,
+   */
+  // public String toString() {
+  //   return "Namn: " + name + " Personummer: " + id + " Pinkod: " + pin + " Betalande: " + String.valueOf(pro);
+  // }
 }

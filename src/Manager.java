@@ -39,9 +39,8 @@ public class Manager {
 	 * @param pro         The pro status of the user
 	 */
 	public User addUser(String firstname, String lastname, String id, boolean pro) {
-		User u = new User(firstname + " " + lastname, id, pro, generatePincode());
-
-		if (users.get(id) != null) {
+		if (users.get(id) == null) {
+			User u = new User(firstname + " " + lastname, id, pro, generatePincode());
 			users.put(id, u);
 			usersPin.put(u.getPin(), u);
 			return u;
