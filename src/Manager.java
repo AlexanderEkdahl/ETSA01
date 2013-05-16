@@ -2,13 +2,14 @@ import java.util.Properties;
 import java.util.HashMap;
 // import java.util.HashSet;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Manager {
-	BarcodePrinter printer;
-	ElectronicLock entryLock;
-	ElectronicLock exitLock;
-	PinCodeTerminal terminal;
-	Properties prop;
+public class Manager implements Serializable {
+	transient BarcodePrinter printer;
+	transient ElectronicLock entryLock;
+	transient ElectronicLock exitLock;
+	transient PinCodeTerminal terminal;
+	transient Properties prop;
 
 	HashMap<String, User> users;
 	HashMap<String, User> usersPin;

@@ -2,6 +2,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Scanner;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
 
 /**
  * Main class responsible for gluing all the other classes together.
@@ -21,7 +24,13 @@ public class Garage {
 			ex.printStackTrace();
 		}
 
-		manager                   = new Manager(prop);
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
+			manager = (Manager)in.readObject();
+		} catch (Exception FileNotFoundException) {
+			manager = new Manager(prop);
+		}
+
 		ElectronicLock entryLock  = new ElectronicLockTestDriver("Entrance");
 		ElectronicLock exitLock   = new ElectronicLockTestDriver("Exit");
 		BarcodePrinter printer    = new BarcodePrinterTestDriver();
@@ -47,7 +56,9 @@ public class Garage {
 											 + "5. Ta bort cykel\n"
 											 + "6. Ta bort användare\n"
 											 + "7. Lista cyklar i garaget\n"
-											 + "8. Lista alla användare\n");
+											 + "8. Lista alla användare\n"
+											 + "9. Kolla upp cykel\n"
+											 + "10. Spara och stäng\n");
 
 			switch (Integer.parseInt(scan.next())) {
 				case 1: {
@@ -115,6 +126,17 @@ public class Garage {
 					if (user != null) {
 						System.out.println(user.toString());
 					}
+					break;
+				}
+				case 10: {
+					try {
+						ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
+						out.writeObject(manager);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						System.exit(1);
+					}
+					System.exit(0);
 					break;
 				}
 			}

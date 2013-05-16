@@ -1,4 +1,6 @@
-public class Bicycle {
+import java.io.Serializable;
+
+public class Bicycle implements Serializable {
  	static int idCounter = 0;
 
 	String id;
