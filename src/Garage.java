@@ -51,15 +51,19 @@ public class Garage {
 
 			switch (Integer.parseInt(scan.next())) {
 				case 1: {
-					String pin = manager.addUser(prompt("Namn"), prompt("Personnummer"), prompt_yesno("Betalande användare?"));
-					System.out.print("Användare tillagd. Pinkod: " + pin);
+					User user = manager.addUser(prompt("Förnamn"), prompt("Efternamn"), prompt("Personnummer"), prompt_yesno("Betalande användare?"));
+					if (user != null) {
+						System.out.print("Användare tillagd. Pinkod: " + user.getPin());
+					} else {
+						System.out.print("Användare med det personnumret finns redan";
+					}
 					break;
 				}
 				case 2: {
 					if (manager.addBicycle(prompt("Ägarens personnummer"))) {
 						System.out.print("Cykel tillagd.");
 					} else {
-						System.out.print("Användaren fins inte");
+						System.out.print("Användaren finns inte");
 					}
 					break;
 				}

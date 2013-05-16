@@ -33,15 +33,21 @@ public class Manager {
 
 	/** Adds a new user to the system
 	 *
-	 * @param name   The full name of the user
-	 * @param id     Unique id of the user
-	 * @param pro    The pro status of the user
+	 * @param firstname   The firstname of the user
+	 * @param lastname    The lastname of the user
+	 * @param id          Unique id of the user
+	 * @param pro         The pro status of the user
 	 */
-	public String addUser(String name, String id, boolean pro) {
-		User u = new User(name, id, pro, generatePincode());
-		users.put(id, u);
-		usersPin.put(u.getPin(), u);
-		return u.getPin();
+	public User addUser(String firstname, String lastname, String id, boolean pro) {
+		User u = new User(firstname + " " + lastname, id, pro, generatePincode());
+
+		if (users.get(id) != null) {
+			users.put(id, u);
+			usersPin.put(u.getPin(), u);
+			return u;
+		}
+
+		return null;
 	}
 
 	String generatePincode() {
