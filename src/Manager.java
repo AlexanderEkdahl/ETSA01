@@ -212,8 +212,12 @@ public class Manager {
 				entryLock.open(10);
 				pendingBicycle = null;
 			} else if (usersPin.containsKey(pinInput)) {
-				terminal.lightLED(PinCodeTerminal.GREEN_LED, 2);
-				entryLock.open(10);
+				if (usersPin.get(pinInput).hasBicycleInGarage()) {
+					terminal.lightLED(PinCodeTerminal.GREEN_LED, 2);
+					entryLock.open(10);
+				} else {
+					terminal.lightLED(PinCodeTerminal.RED_LED, 2);
+				}
 			} else {
 				terminal.lightLED(PinCodeTerminal.RED_LED, 2);
 			}

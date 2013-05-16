@@ -95,6 +95,20 @@ public class User {
 		pro = false;
 	}
 
+	/** Has bicycles in garage
+	 *
+	 * @returns true if User has bicycle in garage
+	 */
+	public boolean hasBicycleInGarage() {
+		for (Bicycle bike : bikes) {
+			if (bike.isInGarage()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	/** Returns a human friendly representation of the User
 	 *
 	 * @return    String holding user name, number of bikes, unique id, pincode and pro status
