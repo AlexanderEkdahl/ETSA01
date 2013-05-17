@@ -14,5 +14,5 @@
 ### OSX ###
 .DS_Store
 
-# Thumbnails
-._*
+database
+test.log

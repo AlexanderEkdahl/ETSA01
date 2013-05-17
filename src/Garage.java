@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
+import java.util.logging.*;
 
 /**
  * Main class responsible for gluing all the other classes together.
@@ -16,10 +17,11 @@ public class Garage {
 	Scanner scan;
 
 	Garage(String config) {
-		Properties prop = new Properties();
+		Logger log = Logger.getLogger("Garage");
+		LogManager.getLogManager().reset();
 
 		try {
-			prop.load(new FileInputStream(config));
+			log.addHandler(new FileHandler("test.log", true));
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -28,8 +30,18 @@ public class Garage {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
 			manager = (Manager)in.readObject();
 		} catch (Exception FileNotFoundException) {
-			manager = new Manager(prop);
+			manager = new Manager();
 		}
+
+		Properties prop = new Properties();
+
+		try {
+			prop.load(new FileInputStream(config));
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
+		manager.setProperties(prop);
 
 		ElectronicLock entryLock  = new ElectronicLockTestDriver("Entrance");
 		ElectronicLock exitLock   = new ElectronicLockTestDriver("Exit");
@@ -58,7 +70,7 @@ public class Garage {
 											 + "7. Lista cyklar i garaget\n"
 											 + "8. Lista alla användare\n"
 											 + "9. Kolla upp cykel\n"
-											 + "10. Spara och stäng\n");
+											 + "10. Spara och stäng");
 
 			switch (Integer.parseInt(scan.next())) {
 				case 1: {

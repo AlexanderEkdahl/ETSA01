@@ -1,8 +1,8 @@
 import java.util.Properties;
 import java.util.HashMap;
-// import java.util.HashSet;
 import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public class Manager implements Serializable {
 	transient BarcodePrinter printer;
@@ -14,22 +14,28 @@ public class Manager implements Serializable {
 	HashMap<String, User> users;
 	HashMap<String, User> usersPin;
 	HashMap<String, Bicycle> bikes;
-	String pinInput;
-	Bicycle pendingBicycle;
-	int garageN;
+	int idCounter;
+	transient String pinInput;
+	transient Bicycle pendingBicycle;
 
 	/** Initializes a new instance of Manager
 	 *
-	 * @param prop        Properties object holding the configurable variables
 	 * @return            BicycleManager instance
 	 */
-	public Manager(Properties prop) {
-		this.prop = prop;
+	public Manager() {
+		users     = new HashMap<String, User>();
+		usersPin  = new HashMap<String, User>();
+		bikes     = new HashMap<String, Bicycle>();
+		pinInput  = "";
+		idCounter = 0;
+	}
 
-		users    = new HashMap<String, User>();
-		usersPin = new HashMap<String, User>();
-		bikes    = new HashMap<String, Bicycle>();
-		pinInput = "";
+	/** Sets the java properties file
+	 *
+	 * @param prop        Properties object holding the configurable variables
+	 */
+	public void setProperties(Properties prop) {
+		this.prop = prop;
 	}
 
 	/** Adds a new user to the system
@@ -81,24 +87,6 @@ public class Manager implements Serializable {
 		return false;
 	}
 
-	/** Returns a list of the users with bikes in their garage
-	 *
-	 * @return       HashSet of all active users
-	 */
-	// public HashSet<User> activeUsers() {
-	// 	HashSet<User> users = new HashSet<User>();
-
-	// 	for (User user : this.users.values()) {
-	// 		for (Bicycle bike : user.getBicycles()) {
-	// 			if (bike.isInGarage()) {
-	// 				users.add(user);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return users;
-	// }
-
 	/** Returns a list of all the users
 	 *
 	 * @return       ArrayList of all active users
@@ -148,7 +136,7 @@ public class Manager implements Serializable {
 		User u = users.get(id);
 
 		if (u != null) {
-			Bicycle bike = new Bicycle(u);
+			Bicycle bike = new Bicycle(u, Integer.toString(++idCounter));
 
 			u.addBicycle(bike);
 			bikes.put(bike.getId(), bike);
@@ -180,17 +168,34 @@ public class Manager implements Serializable {
 		return false;
 	}
 
+	/** Counts the number of bicycles in the garage
+	 *
+	 * @return         Int representing the bicycle count
+	 */
+	public int numberOfBicyclesInGarage() {
+		int count = 0;
+
+		for (User user : getUsers()) {
+			count += user.getBicyclesInGarage().size();
+		}
+
+		return count;
+	}
+
 	public void entryBarcode(String id) {
-		if (garageN >= Integer.parseInt(prop.getProperty("garage_full", "2"))) {
+		if (numberOfBicyclesInGarage() >= Integer.parseInt(prop.getProperty("garage_full", "3"))) {
 			terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 			pendingBicycle = null;
+			log("Garage full");
 			return;
 		}
 
 		Bicycle bike = bikes.get(id);
 		if (bike != null && !bike.isInGarage()) {
+			log(bike.toString() + " scanned at the entrance.");
 			pendingBicycle = bike;
 		} else {
+			log("Unknown bike scanned at the entrance.");
 			terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 		}
 	}
@@ -198,29 +203,47 @@ public class Manager implements Serializable {
 	public void exitBarcode(String id) {
 		Bicycle bike = bikes.get(id);
 		if (bike != null) {
+			log(bike.toString() + " scanned at exit.");
 			bike.setGarageStatus(false);
-			garageN--;
+		} else {
+			log("Unknown bike scanned at exit.");
 		}
 		exitLock.open(10);
+	}
+
+	void openForBicyle(Bicycle bike) {
+		log(bike.getUser().getName() + " blev insläppt i garaget.");
+		pendingBicycle.setGarageStatus(true);
+		terminal.lightLED(PinCodeTerminal.GREEN_LED, 10);
+		entryLock.open(10);
+		pendingBicycle = null;
 	}
 
 	public void entryCharacter(char c) {
 		pinInput += c;
 		if (pinInput.length() > 3) {
 			if (pendingBicycle != null && pendingBicycle.getUser().getPin().equals(pinInput)) {
-				pendingBicycle.setGarageStatus(true);
-				garageN++;
-				terminal.lightLED(PinCodeTerminal.GREEN_LED, 10);
-				entryLock.open(10);
-				pendingBicycle = null;
+				if (pendingBicycle.getUser().getStatus()) {
+					openForBicyle(pendingBicycle);
+				} else {
+					if (numberOfBicyclesInGarage() >= Integer.parseInt(prop.getProperty("garage_pro_only", "2"))) {
+						terminal.lightLED(PinCodeTerminal.RED_LED, 1);
+						log("Garage has no room for non pro users");
+					} else {
+						openForBicyle(pendingBicycle);
+					}
+				}
 			} else if (usersPin.containsKey(pinInput)) {
 				if (usersPin.get(pinInput).hasBicycleInGarage()) {
+					log(usersPin.get(pinInput).getName() + " blev insläppt i garaget utan cykel.");
 					terminal.lightLED(PinCodeTerminal.GREEN_LED, 10);
 					entryLock.open(10);
 				} else {
+					log(usersPin.get(pinInput).getName() + " försökte komma in utan att ha en cykel i garaget.");
 					terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 				}
 			} else {
+				log("Okänd pinkod.");
 				terminal.lightLED(PinCodeTerminal.RED_LED, 1);
 			}
 			pinInput = "";
@@ -236,5 +259,9 @@ public class Manager implements Serializable {
 		this.entryLock = entryLock;
 		this.exitLock  = exitLock;
 		this.terminal  = terminal;
+	}
+
+	void log(String out) {
+		Logger.getLogger("Garage").info(out);
 	}
 }

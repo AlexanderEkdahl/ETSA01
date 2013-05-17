@@ -1,8 +1,6 @@
 import java.io.Serializable;
 
 public class Bicycle implements Serializable {
- 	static int idCounter = 0;
-
 	String id;
 	User user;
 	boolean status;
@@ -10,11 +8,12 @@ public class Bicycle implements Serializable {
 	/** Initializes a new instance of Bicycle
 	 *
 	 * @param user  Owner of the bike
+   * @param id    Unique id of the bike
 	 * @return      Bicycle instance
 	 */
-	public Bicycle(User user) {
+	public Bicycle(User user, String id) {
 		this.user = user;
-		id        = Integer.toString(++idCounter);
+    this.id   = id;
 	}
 
 	/** Returns the id of the bike(barcode)
@@ -54,6 +53,6 @@ public class Bicycle implements Serializable {
    * @return    String holding id, owner name and status
    */
   public String toString() {
-    return "ID: " + id + " Ägare: " + user.getName() + " Garage status: " + String.valueOf(status);
+    return "Cykel ID: " + id + " Ägare: " + user.getName() + " Garage status: " + String.valueOf(status);
   }
 }
