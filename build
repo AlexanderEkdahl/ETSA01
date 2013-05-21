@@ -1,0 +1,3 @@
+#!/bin/bash
+
+javac -cp src:drivers:interfaces:test src/Garage.java
