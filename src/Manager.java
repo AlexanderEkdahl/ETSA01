@@ -158,11 +158,9 @@ public class Manager implements Serializable {
 		if (bike != null) {
 			User u = bike.getUser();
 
-			if (!bike.isInGarage()) {
-				u.removeBicycle(bike);
-				bikes.remove(id);
-				return true;
-			}
+			u.removeBicycle(bike);
+			bikes.remove(id);
+			return true;
 		}
 
 		return false;

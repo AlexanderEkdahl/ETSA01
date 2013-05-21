@@ -26,19 +26,19 @@ public class Garage {
 			ex.printStackTrace();
 		}
 
-		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
-			manager = (Manager)in.readObject();
-		} catch (Exception FileNotFoundException) {
-			manager = new Manager();
-		}
-
 		Properties prop = new Properties();
 
 		try {
 			prop.load(new FileInputStream(config));
 		} catch (IOException ex) {
 			ex.printStackTrace();
+		}
+
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
+			manager = (Manager)in.readObject();
+		} catch (Exception FileNotFoundException) {
+			manager = new Manager();
 		}
 
 		manager.setProperties(prop);
@@ -77,6 +77,7 @@ public class Garage {
 					User user = manager.addUser(prompt("Förnamn"), prompt("Efternamn"), prompt("Personnummer"), prompt_yesno("Betalande användare?"));
 					if (user != null) {
 						System.out.print("Användare tillagd. Pinkod: " + user.getPin());
+						save();
 					} else {
 						System.out.print("Användare med det personnumret finns redan");
 					}
@@ -85,6 +86,7 @@ public class Garage {
 				case 2: {
 					if (manager.addBicycle(prompt("Ägarens personnummer"))) {
 						System.out.print("Cykel tillagd.");
+						save();
 					} else {
 						System.out.print("Användaren finns inte");
 					}
@@ -93,16 +95,19 @@ public class Garage {
 				case 3: {
 					manager.upgradeUser(prompt("Personnummer"));
 					System.out.print("Användare uppgraderad.");
+					save();
 					break;
 				}
 				case 4: {
 					manager.downgradeUser(prompt("Personnummer"));
 					System.out.print("Användare nedgraderad.");
+					save();
 					break;
 				}
 				case 5: {
 					if (manager.removeBicycle(prompt("Cyckel ID"))) {
 						System.out.print("Cykel bortagen");
+						save();
 					} else {
 						System.out.print("Cykeln finns inte i systemet eller redan parkerad");
 					}
@@ -111,6 +116,7 @@ public class Garage {
 				case 6: {
 					if (manager.removeUser(prompt("Personnummer"))) {
 						System.out.print("Användare bortagen");
+						save();
 					} else {
 						System.out.print("Användaren finns inte eller har fortfarande cyklar registrerade. Ta bort cyklarna först.");
 					}
@@ -141,13 +147,7 @@ public class Garage {
 					break;
 				}
 				case 10: {
-					try {
-						ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
-						out.writeObject(manager);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-						System.exit(1);
-					}
+					save();
 					System.exit(0);
 					break;
 				}
@@ -163,6 +163,16 @@ public class Garage {
 	boolean prompt_yesno(String out) {
 		System.out.print(out + "(y/n): ");
 		return scan.next().equals("y");
+	}
+
+	void save() {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
+			out.writeObject(manager);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(1);
+		}
 	}
 
 	public static void main(String[] args) {
