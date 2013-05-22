@@ -26,7 +26,6 @@ public class Manager implements Serializable {
 		users     = new HashMap<String, User>();
 		usersPin  = new HashMap<String, User>();
 		bikes     = new HashMap<String, Bicycle>();
-		pinInput  = "";
 		idCounter = 0;
 	}
 
@@ -218,6 +217,10 @@ public class Manager implements Serializable {
 	}
 
 	public void entryCharacter(char c) {
+		if (pinInput == null) {
+			pinInput = "";
+		}
+
 		pinInput += c;
 		if (pinInput.length() > 3) {
 			if (pendingBicycle != null && pendingBicycle.getUser().getPin().equals(pinInput)) {
